@@ -20,7 +20,7 @@ pipeline{
         // 定义第一个stage， 完成克隆源码的任务
         stage('Git'){
           steps{
-            git branch: '${BRANCH}', credentialsId: '', url: 'https://github.com/AliyunContainerService/jenkins-demo.git'
+            git branch: '${BRANCH}', credentialsId: '', url: 'https://github.com/daniel-xsu/jenkins-demo.git'
           }
         }
 
@@ -46,9 +46,10 @@ pipeline{
         // 添加第四个stage, 部署应用到指定k8s集群
         stage('Deploy to Kubernetes') {
           steps {
-            container('kubectl') {
-              step([$class: 'KubernetesDeploy', authMethod: 'certs', apiServerUrl: 'https://kubernetes.default.svc.cluster.local:443', credentialsId:'k8sCertAuth', config: 'deployment.yaml',variableState: 'ORIGIN_REPO,REPO,IMAGE_TAG'])
-            }
+            sh "echo 'disable the deployment'"
+            // container('kubectl') {
+            //  step([$class: 'KubernetesDeploy', authMethod: 'certs', apiServerUrl: 'https://kubernetes.default.svc.cluster.local:443', credentialsId:'k8sCertAuth', config: 'deployment.yaml',variableState: 'ORIGIN_REPO,REPO,IMAGE_TAG'])
+            // }
           }
         }
       }
